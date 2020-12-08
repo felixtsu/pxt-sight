@@ -9,13 +9,10 @@
         "main.ts",
         "README.md",
         "sight.ts",
-        "test.ts",
         "tilemap.g.jres",
         "tilemap.g.ts"
     ],
-    "testFiles": [
-        "test.ts"
-    ],
+    "testFiles": [],
     "targetVersions": {
         "target": "1.2.10",
         "targetId": "arcade"
