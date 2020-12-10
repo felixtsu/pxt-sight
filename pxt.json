@@ -8,9 +8,7 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "sight.ts",
-        "tilemap.g.jres",
-        "tilemap.g.ts"
+        "sight.ts"
     ],
     "testFiles": [],
     "targetVersions": {
