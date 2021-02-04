@@ -127,6 +127,10 @@ namespace sight{
         return false
     }
 
+    export function toggleTestingTiles(on:boolean) {
+        showTestingTiles = on
+    }
+
     //%block="can %sprite see %target, range %range, %omitWalls "
     export function isInSight(sprite:Sprite, target:Sprite, range:number, omitWalls:boolean) {
         if (!distanceInRange(sprite, target, range)) {
