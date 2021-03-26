@@ -1,4 +1,5 @@
- // 在此处添加您的代码
+ //%block="Sprite Sight"
+//% weight=100 color=#E29E28 icon="\u2BD0"
 namespace sight{
 
     let showTestingTiles = false
@@ -131,7 +132,8 @@ namespace sight{
         showTestingTiles = on
     }
 
-    //%block="can %sprite see %target, range %range, %omitWalls "
+    //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range %omitWalls"
+     //%blockid=spritesightisinsight 
     export function isInSight(sprite:Sprite, target:Sprite, range:number, omitWalls:boolean) {
         if (!distanceInRange(sprite, target, range)) {
             return false 
