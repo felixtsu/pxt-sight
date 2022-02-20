@@ -1,5 +1,5 @@
  //%block="Sprite Sight"
-//% weight=100 color=#E29E28 icon="\u2BD0"
+//% weight=100 color=#E29E28 icon=""
 namespace sight{
 
     let showTestingTiles = false
@@ -132,6 +132,24 @@ namespace sight{
         showTestingTiles = on
     }
 
+    //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range sightDirection %sightDirection sightRange %sightRange"
+    //%blockid=spritesightisinsightcone
+    export function isInSightCone(sprite:Sprite, target:Sprite, range:number, sightDirection:number, sightRange:number) {
+        if (!distanceInRange(sprite, target, range)) {
+            return false
+        }
+
+        if (isWallBetween(sprite, target)) {
+            return false
+        }
+
+        let angle = Math.atan2(target.y - sprite.y, target.x - sprite.x)
+        
+        angle = ((angle / Math.PI * 180 ) + 360 )% 360
+        sightDirection = (sightDirection + 360 )% 360
+        return Math.abs(angle - sightDirection) < sightRange
+    }
+
     //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range %omitWalls"
      //%blockid=spritesightisinsight 
     export function isInSight(sprite:Sprite, target:Sprite, range:number, omitWalls:boolean) {
@@ -144,7 +162,6 @@ namespace sight{
         }
 
         return !isWallBetween(sprite, target)
-        
     }
 
 }
