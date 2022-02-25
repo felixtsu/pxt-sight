@@ -28,7 +28,9 @@ namespace sight {
             })
         }
 
-        //%blockid=pxtsight_update_sight_direction block="将 %target=variables_get(mySprite) 的视线方向设为 $direction"
+        //%blockid=pxtsight_update_sight_direction 
+        //%block="set %target=variables_get(mySprite) sight direction to $direction"
+        //%block.loc.zh-CN="将 %target=variables_get(mySprite) 的视线方向设为 $direction"
         updateDirection(direction: number) {
             this.direction = direction
             this.shaderSprite.destroy()
@@ -43,13 +45,17 @@ namespace sight {
 
     }
 
-    //%blockid=pxtsight_sight_range_sprite_of block="在 %sprite=variables_get(mySprite) 上的警戒范围精灵"
+    //%blockid=pxtsight_sight_range_sprite_of 
+    //% block="Sight range sprite attached to %sprite=variables_get(mySprite)"
+    //% block.loc.zh-CN="在 %sprite=variables_get(mySprite) 上的警戒范围精灵"
     export function sightRangeSpriteOn(sprite:Sprite) :SightRangeSprite{
         return sprites.readDataSprite(sprite, ALERT_RANGE_SPRITE_DATA_KEY) as SightRangeSprite   
     }
 
-    //%blockid=pxtsight_create_sight_shader block="在 %target=variables_get(mySprite) 画出警戒范围，距离$range视线方向$sightDirection视线角度$sightRange"
-    //%blockSetVariable="alertRange"
+    //%blockid=pxtsight_create_sight_shader 
+    //%block="show sight range of %target=variables_get(mySprite), distance $range direction $sightDirection sightRange $sightRange"
+    //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出警戒范围，距离$range视线方向$sightDirection视线角度$sightRange"
+    //%blockSetVariable="sightRangeSprite"
     export function createSectorAlertRange(target: Sprite, range: number, sightDirection: number, sightRange: number) :SightRangeSprite{
         let shaderSprite = createSectionShader(range, sightDirection, sightRange / 2)
         let result =  new SightRangeSprite(target, shaderSprite, range, sightDirection, sightRange / 2)
@@ -66,13 +72,8 @@ namespace sight {
             })
         }
         alertRangeSprites.push(result)
-
         return result;
     }
-
-    
-
-
 
     function createSectionShader(range: number, sightDirection: number, sightRange: number): Sprite {
         let result = image.create(range * 2, range * 2)
