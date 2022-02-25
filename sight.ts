@@ -2,9 +2,41 @@
 //% weight=100 color=#E29E28 icon=""
 namespace sight{
 
-    let showTestingTiles = false
+    export class SightRangeSprite {
 
-    
+        private shaderSprite :Sprite
+        private target:Sprite
+        private direction:number
+
+        private range: number
+
+        private sightRange:number
+
+        public constructor(target:Sprite, range:number, direction:number, sightRange:number) {
+            this.target = target
+            this.range = range
+            this.direction = direction
+            this.sightRange = sightRange
+
+            this.shaderSprite = createSectionShader(range, direction, sightRange)
+            this.shaderSprite.follow(this.target,1000, 4000)
+            this.target.onDestroyed(()=>{
+                this.shaderSprite.destroy()
+            })
+            
+        }
+
+        updateDirection(direction:number) {
+            this.direction = direction
+            this.shaderSprite.destroy()
+
+            this.shaderSprite = createSectionShader(this.range, this.direction, this.sightRange)
+        }
+        
+
+    }
+
+    let showTestingTiles = false
 
     function distanceInRange(sprite:Sprite, target:Sprite, range:number) {
         return Math.sqrt(Math.pow(sprite.x - target.x, 2) + Math.pow(sprite.y - target.y, 2)) <= range
@@ -150,9 +182,23 @@ namespace sight{
         return result
     }
 
+    export function updateSightDirection(sprite: SightRangeSprite, sightDirection:number) {
+        let sightRangeSprite :SightRangeSprite = null
+        if (sprite instanceof SightRangeSprite) {
+            sightRangeSprite = sprite as SightRangeSprite
+        } 
+        sightRangeSprite.updateDirection(sightDirection)
+    }
 
-    // blockid=pxtsight_create_sight_shader block="画出警戒范围 距离 $range 视线方向 $sightDirection 视线角度 $range"
-    export function createSectionShader(range: number, sightDirection: number, sightRange: number): Sprite {
+
+    // blockid=pxtsight_create_sight_shader block="在 %target=variables_get(mySprite) 画出警戒范围 距离 $range 视线方向 $sightDirection 视线角度 $range"
+     //%blockSetVariable="alertRange"
+    export function createSectorAlertRange(target:Sprite, range:number, sightDirection:number, sightRange:number) {
+        return new SightRangeSprite(target, range, sightDirection, sightRange)
+        
+    }
+
+    function createSectionShader(range: number, sightDirection: number, sightRange: number):  Sprite{
         let result = image.create(range*2, range*2)
         for (let degree = sightDirection - sightRange; degree <= sightDirection + sightRange; degree++) {
             let degreeIn360 = (degree + 360) % 360
