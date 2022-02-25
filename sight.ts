@@ -4,6 +4,8 @@ namespace sight{
 
     let showTestingTiles = false
 
+    
+
     function distanceInRange(sprite:Sprite, target:Sprite, range:number) {
         return Math.sqrt(Math.pow(sprite.x - target.x, 2) + Math.pow(sprite.y - target.y, 2)) <= range
     }
@@ -131,6 +133,132 @@ namespace sight{
     export function toggleTestingTiles(on:boolean) {
         showTestingTiles = on
     }
+
+
+    function isPointInRange(x: number, y: number, 
+            angle_lower_in_360: number, angle_upper_in_360:number): boolean {
+        let angle = Math.atan2(y, x) / Math.PI * 180
+        let pointAngleIn360 = (angle + 360) % 360
+        console.log(pointAngleIn360)
+        return pointAngleIn360 >= angle_lower_in_360 && pointAngleIn360 <= angle_upper_in_360
+    }
+    function isInRange(x:number, y:number,
+        sightDirection:number, sightRange:number) {
+            let angle = Math.atan2(y, x) / Math.PI * 180
+        let pointAngleIn360 = (angle + 360) % 360
+        let result = Math.abs(sightDirection - pointAngleIn360) <= sightRange
+        return result
+    }
+
+
+    // blockid=pxtsight_create_sight_shader block="画出警戒范围 距离 $range 视线方向 $sightDirection 视线角度 $range"
+    export function createSectionShader(range: number, sightDirection: number, sightRange: number): Sprite {
+        let result = image.create(range*2, range*2)
+        for (let degree = sightDirection - sightRange; degree <= sightDirection + sightRange; degree++) {
+            let degreeIn360 = (degree + 360) % 360
+            let x = range * Math.cos(degreeIn360 /180 * Math.PI) 
+            let y = Math.sqrt(range * range - x * x)
+            if (degreeIn360 <= 180) {
+              y = -y  
+            } 
+            result.drawLine(range, range, range + x, range - y, 2)
+        }
+        return shader.createImageShaderSprite(result, shader.ShadeLevel.One)
+    }
+
+    // export function createSectionShader(range:number, sightDirection : number, sightRange : number) :Sprite{
+    //     let result = image.create(range * 2, range * 2) 
+    //     for (let i = 0; i < 2* range ; i++) {
+    //         // 1 遍历每一行，找到应该画出的左右侧点，然后用drawLine去画这一行
+
+    //         // 当前的deltaY，到圆心的距离
+    //         let h = i - range
+            
+    //         // 勾股定理算出左右两侧偏移x
+    //         let deltaX = Math.round(Math.sqrt(range * range - h * h))
+    //         let x0 = range - deltaX
+    //         let x1 = range + deltaX
+
+    //         if( Math.abs(h) == 10) {
+    //             console.log(`${x0},${x1}`)
+    //         }
+
+    //         // console.log(`${angle_lower_in_360}, ${angle_upper_in_360}`)
+
+    //         if (i == range || i == range + 1) {
+    //             // 中间两行需要特殊处理(h/tan为infinity)
+    //             x0 = range, x1 = range
+    //             // 如果 0 / 180 在sightRange内，修改左右两端最远点
+    //             if (Math.abs(sightDirection - 0) <= sightRange) {
+    //                 x1 = range * 2
+    //             } 
+    //             if (Math.abs(sightDirection - 180) <= sightRange) {
+    //                 x0 = 0
+    //             } 
+
+    //             result.drawLine(x0, i, x1, i, 2)
+
+    //         } else {
+    //             let angle_lower_degrees = sightDirection - sightRange
+    //             let angle_upper_degrees = sightDirection + sightRange
+
+    //             let angle_lower_in_360 = (angle_lower_degrees + 360) % 360
+    //             let angle_upper_in_360 = (angle_upper_degrees + 360) % 360
+
+    //             // 看一下是否在范围内，超出范围的话，就需要调整为边沿的x
+    //             let x_min = h / Math.tan(angle_lower_in_360 / 180 * Math.PI) + range
+    //             let x_max = h / Math.tan(angle_upper_in_360 / 180 * Math.PI) + range
+
+    //             if (x_min > x_max) {
+    //                 let temp = x_min
+    //                 x_min = x_max
+    //                 x_max = x_min
+    //             }
+
+    //             // if (!isInRange(x_min, h, sightDirection, sightRange)) {
+    //             //     x_min = range
+    //             // }
+    //             // if (!isInRange(x_max, h, sightDirection, sightRange)) {
+    //             //     x_max = range
+    //             // }
+
+    //             if (!isInRange(-deltaX, h, sightDirection, sightRange)) {
+    //                 x0 = x_min
+    //             }
+
+    //             if (!isInRange(deltaX, h, sightDirection, sightRange)) {
+    //                 x1 = x_max
+    //             }
+                
+    //             if (x1 > x0) {
+    //                 result.drawLine(x0, i, x1, i, 2)
+    //             }
+                
+                
+                
+    //         }
+
+    //         // if (angle_lower == 90 || angle_lower == -90) {
+    //         //     x0 = 0
+    //         //     x_min = 0
+    //         // }
+    //         // if (angle_upper == 90 || angle_upper == -90) {
+    //         //     x1 = range * 2
+    //         //     x_max = range * 2
+    //         // }
+    //         // // 如果x0 不在范围内，则利用小值
+    //         // let x_lower = Math.min(x_min, x_max)
+    //         // let x_upper = Math.max(x_min, x_max)
+    //         // // if (h == 10) {
+    //         //     console.log(`(${x0}, ${x1}, ${x_lower},${x_upper})`)
+    //         // // }
+    //         // x0 = Math.max(x0, x_lower)
+    //         // x1 = Math.min(x1, x_upper)
+    
+            
+    //     }
+    //     return shader.createImageShaderSprite(result, shader.ShadeLevel.Two)
+    // }
 
     //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range sightDirection %sightDirection sightRange %sightRange"
     //%blockid=spritesightisinsightcone

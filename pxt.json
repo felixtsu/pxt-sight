@@ -3,13 +3,15 @@
     "version": "0.1.0",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-shader": "github:riknoll/arcade-shader#d2a2572906fdb68ff429f337e30606b069e688ea"
     },
     "files": [
         "main.blocks",
         "main.ts",
         "README.md",
-        "sight.ts"
+        "sight.ts",
+        "test.ts"
     ],
     "testFiles": [],
     "targetVersions": {

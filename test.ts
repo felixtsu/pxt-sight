@@ -1,47 +1,12 @@
-// 在此处添加您的代码
-let startSprite = sprites.create(img`
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-`)
-controller.moveSprite(startSprite)
+// Add your code here
+scene.setBackgroundColor(1)
 
-let endSprite = sprites.create(img`
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-`)
-pause(1000)
-game.onUpdate(function() {
-    // if (sight.isInSight(startSprite, endSprite, 30, false)) {
-    //     endSprite.say("y")
-    // } else {
-    //     endSprite.say("n")
-    // }
+let angle = 0
+let sprite:Sprite = null
+controller.A.onEvent(ControllerButtonEvent.Pressed, () => {
+    if (sprite != null) {
+        sprite.destroy()
+    }
+    sprite = sight.createSectionShader(48, angle, 30)
+    angle += 30
 })
