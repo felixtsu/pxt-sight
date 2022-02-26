@@ -25,8 +25,10 @@ namespace sight {
 
         public constructor(target: Sprite, shaderSprite: Sprite, range: number) {
             super(target, shaderSprite, range)
+            game.currentScene().physicsEngine.addSprite(this)
             this.target.onDestroyed(() => {
                 this.shaderSprite.destroy()
+                this.destroy()
             })
         }
     }
@@ -52,8 +54,9 @@ namespace sight {
     }
 
     //%blockid=pxtsight_update_sight_direction 
-    //%block="set %target=variables_get(mySprite) sight direction to $direction"
-    //%block.loc.zh-CN="将 %target=variables_get(mySprite) 的视线方向设为 $direction"
+    //%block="set %target=variables_get(mySprite) sight direction to $sightDirection"
+    //%block.loc.zh-CN="将 %target=variables_get(mySprite) 的视线方向设为 $sightDirection"
+    //%group='锥形视野'
     export function updateSightDirection(target: SightRangeSprite, sightDirection: number) {
         if (target instanceof ConicalSightRangeSprite) {
             let sightRangeSprite = target as ConicalSightRangeSprite
@@ -73,6 +76,7 @@ namespace sight {
     //%block="show sight range of %target=variables_get(mySprite), distance $range direction $sightDirection sightRange $sightRange"
     //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出锥形警戒范围，距离$range视线方向$sightDirection视线角度$sightRange"
     //%blockSetVariable="sightRangeSprite"
+    //%group='锥形视野'
     export function createSectorAlertRange(target: Sprite, range: number, sightDirection: number, sightRange: number) :SightRangeSprite{
         let shaderSprite = createSectionShader(range, sightDirection, sightRange / 2)
         let result =  new ConicalSightRangeSprite(target, shaderSprite, range, sightDirection, sightRange / 2)
@@ -98,10 +102,11 @@ namespace sight {
         alertRangeSprites.push(sightRangeSprite)
     }
     
-    //%blockid=pxtsight_create_round_sight_shader 
-    //%block="show sight range of %target=variables_get(mySprite), distance $range direction $sightDirection sightRange $sightRange"
-    //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出圆形警戒范围，距离$range视线方向$sightDirection视线角度$sightRange"
+    //%blockid=pxtsight_create_circular_sight_shader 
+    //%block="show sight range of %target=variables_get(mySprite), distance $range"
+    //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出圆形警戒范围，距离$range"
     //%blockSetVariable="sightRangeSprite"
+    //%group='圆形视野'
     export function createCirularAlertRange(target: Sprite, range: number): SightRangeSprite {
         let shaderSprite = createCircularShaderSprite(range)
         let result = new CircularSightRangeSprite(target, shaderSprite, range)

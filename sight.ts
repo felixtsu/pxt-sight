@@ -248,6 +248,7 @@ namespace sight{
     //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range sightDirection %sightDirection sightRange %sightRange"
     //%block.loc.zh-CN="$sprite=variables_get(sprite) 能看到 $target=variables_get(otherSprite) 吗？视线范围(距离 %range 方向 %sightDirection 角度范围 %sightRange)"
     //%blockid=spritesightisinsightcone
+    //%group='锥形视野'
     export function isInSightCone(sprite:Sprite, target:Sprite, range:number, sightDirection:number, sightRange:number) {
         if (!distanceInRange(sprite, target, range)) {
             return false
@@ -267,6 +268,7 @@ namespace sight{
     //%block="can $sprite=variables_get(sprite) see $target=variables_get(otherSprite) range %range %omitWalls"
     //%block.loc.zh-CN="$sprite=variables_get(sprite) 能看到 $target=variables_get(otherSprite) 吗？范围(距离 %range 忽略墙体 %omitWalls)"
      //%blockid=spritesightisinsight 
+     //%group='圆形视野'
     export function isInSight(sprite:Sprite, target:Sprite, range:number, omitWalls:boolean) {
         if (!distanceInRange(sprite, target, range)) {
             return false 
