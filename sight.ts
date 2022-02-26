@@ -1,4 +1,5 @@
  //%block="Sprite Sight"
+ //%groups=["锥形视野","圆形视野"]
 //% weight=100 color=#E29E28 icon=""
 namespace sight{
 
@@ -150,19 +151,6 @@ namespace sight{
     }
 
     
-    export function updateSightDirection(sprite: SightRangeSprite, sightDirection:number) {
-        let sightRangeSprite :SightRangeSprite = null
-        if (sprite instanceof SightRangeSprite) {
-            sightRangeSprite = sprite as SightRangeSprite
-        } 
-        sightRangeSprite.updateDirection(sightDirection)
-    }
-
-
-    
-
-   
-
     // export function createSectionShader(range:number, sightDirection : number, sightRange : number) :Sprite{
     //     let result = image.create(range * 2, range * 2) 
     //     for (let i = 0; i < 2* range ; i++) {
