@@ -3,7 +3,7 @@ namespace sight {
     const ALERT_RANGE_SPRITE_DATA_KEY = "ALERT_RANGE_SPRITE_DATA_KEY"
     const ALERT_RANGE_SPRITES_SCENE_DATA_KEY = "ALERT_RANGE_SPRITES_SCENE_DATA_KEY"
     
-    class SightRangeSprite extends Sprite {
+    export class SightRangeSprite extends Sprite {
         protected shaderSprite: Sprite
         protected target: Sprite
         protected range: number
@@ -77,7 +77,7 @@ namespace sight {
     //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出锥形警戒范围，距离$range视线方向$sightDirection视线角度$sightRange"
     //%blockSetVariable="sightRangeSprite"
     //%group='锥形视野'
-    export function createSectorAlertRange(target: Sprite, range: number, sightDirection: number, sightRange: number) :SightRangeSprite{
+    export function createSectorAlertRange(target: Sprite, range: number, sightDirection: number, sightRange: number): ConicalSightRangeSprite{
         let shaderSprite = createSectionShader(range, sightDirection, sightRange / 2)
         let result =  new ConicalSightRangeSprite(target, shaderSprite, range, sightDirection, sightRange / 2)
 
@@ -107,7 +107,7 @@ namespace sight {
     //%block.loc.zh-CN="在 %target=variables_get(mySprite) 画出圆形警戒范围，距离$range"
     //%blockSetVariable="sightRangeSprite"
     //%group='圆形视野'
-    export function createCirularAlertRange(target: Sprite, range: number): SightRangeSprite {
+    export function createCirularAlertRange(target: Sprite, range: number): CircularSightRangeSprite {
         let shaderSprite = createCircularShaderSprite(range)
         let result = new CircularSightRangeSprite(target, shaderSprite, range)
         sprites.setDataSprite(target, ALERT_RANGE_SPRITE_DATA_KEY, result)
