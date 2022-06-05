@@ -19,6 +19,11 @@ namespace sight {
             this.shaderSprite.x = this.target.x
             this.shaderSprite.y = this.target.y
         }
+
+        destroy(effect?:effects.ParticleEffect, duration?:number) {
+            super.destroy()
+            this.shaderSprite.destroy()
+        }
     }
 
     export class CircularSightRangeSprite extends SightRangeSprite {
